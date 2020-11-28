@@ -1,0 +1,21 @@
+.searchBarContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchBar {
+  border-color: grey;
+  height: 80px;
+  width: 500px;
+  font-size: 35px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.searchButton {
+  margin-top: 20px;
+  height: 40px;
+  width: 200px;
+}
