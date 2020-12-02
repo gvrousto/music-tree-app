@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWindowSize } from '@react-hook/window-size'
 import {
-  setTreeData,
+  setChildrenForNode,
   selectMusicTreeData
 } from './musicTreeSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -25,7 +25,7 @@ export function MusicTree(){
                           numberOfNodes++;
                           return {name: value.name, id: numberOfNodes, children: [] };
                         });
-        dispatch(setTreeData({ name: targetNode.name, children: children }));
+        dispatch(setChildrenForNode({ name: targetNode.name, children: children }));
       });
   };
 

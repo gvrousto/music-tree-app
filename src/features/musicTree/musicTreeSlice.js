@@ -10,8 +10,13 @@ export const musicTreeSlice = createSlice({
     }
   ],
   reducers: {
-    setTreeData: (state, action) => {
+    setChildrenForNode: (state, action) => {
       setChildrenOfNodeByName(action.payload.name, state, action.payload.children);
+    },
+    setTreeData: (state, action) => {
+      state[0].id = 0;
+      state[0].name = action.payload;
+      state[0].children = [];
     }
   },
 });
@@ -31,7 +36,7 @@ const setChildrenOfNodeByName = (nodeName, nodeSet, children) => {
   }
 };
 
-export const { setTreeData } = musicTreeSlice.actions;
+export const { setChildrenForNode, setTreeData } = musicTreeSlice.actions;
 
 export const selectMusicTreeData = state => state.musicTree;
 
