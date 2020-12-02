@@ -1,36 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { useWindowSize } from '@react-hook/window-size'
+import {
+  setTreeData,
+  selectMusicTreeData
+} from './musicTreeSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './MusicTree.module.css';
 import axios from 'axios';
 import clone from 'clone';
 import Tree from 'react-d3-tree';
 
-const lastFmUrl = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=john lenon&api_key="+process.env.REACT_APP_LASTFM_KEY+"&format=json";
-const treeInitialState = [
-  {
-    name: 'Cher',
-    children: []
-  }
-];
-
 export function MusicTree(){
+  const musicTreeData = useSelector(selectMusicTreeData);
+  const dispatch = useDispatch();
   const[translate, setTranslate] = useState();
-  const[treeData, setTreeData] = useState(treeInitialState);
   const[width, height] = useWindowSize();
-  console.log(treeData);
-  useEffect(() => {
+  let numberOfNodes = 0;
+
+  const onClickOfNode = (targetNode, evt) => {
+    const lastFmUrl = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${targetNode.name}&api_key=${process.env.REACT_APP_LASTFM_KEY}&format=json`;
     axios.get(lastFmUrl)
       .then((response) => {
-        const treeDataTemp = clone(treeData);
-        const target = treeDataTemp[0].children ? treeDataTemp[0].children : treeDataTemp[0]._children
-        let children = response.data.similarartists.artist.slice(0, 3);
-        children = children.map((child) => {
-          return { name: child.name };
-        });
-        target.push({ name: `Fck` });
-        setTreeData(treeDataTemp);
+        let children = response.data.similarartists.artist.slice(4, 7)
+                        .map((value) => {
+                          numberOfNodes++;
+                          return {name: value.name, id: numberOfNodes, children: [] };
+                        });
+        dispatch(setTreeData({ name: targetNode.name, children: children }));
       });
-  }, [treeData]);
+  };
 
   useEffect(() => {
     const translateTemp = {
@@ -42,7 +40,7 @@ export function MusicTree(){
 
   return (
     <div className={styles.musicTreeContainer}>
-      <Tree data={treeData} translate={translate}/>
+      <Tree onClick={onClickOfNode} data={musicTreeData} translate={translate}/>
     </div>
   );
 }
