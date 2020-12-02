@@ -1,5 +1,4 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
 import { SearchBar } from './features/searchBar/SearchBar';
 import { MusicTree } from './features/musicTree/MusicTree';
 import {
@@ -21,9 +20,6 @@ function App() {
             </Route>
             <Route path = "/musicTree">
               <MusicTree />
-            </Route>
-            <Route path = "/counter">
-              <Counter />
             </Route>
             <Route>
               <Redirect to="/search"/>

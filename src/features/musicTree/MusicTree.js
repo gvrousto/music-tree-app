@@ -7,7 +7,6 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './MusicTree.module.css';
 import axios from 'axios';
-import clone from 'clone';
 import Tree from 'react-d3-tree';
 
 export function MusicTree(){
